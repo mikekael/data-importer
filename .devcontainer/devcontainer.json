@@ -1,0 +1,14 @@
+{
+    "name": "Coding Challenge",
+    "dockerComposeFile": ["../docker-compose.yml", "docker-compose.dev.yml"],
+    "service": "app",
+    "shutdownAction": "stopCompose",
+    "workspaceFolder": "/var/www/html",
+    "extensions": [
+        "bmewburn.vscode-intelephense-client",
+        "emallin.phpunit",
+        "neilbrayfield.php-docblocker",
+        "felixfbecker.php-debug"
+    ],
+    "postCreateCommand": ["composer", "install"]
+}
