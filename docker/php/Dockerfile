@@ -28,3 +28,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 # uninstall build dependencies
 RUN apk del -f .build-deps
+
+# modify user id for www-data to 1001
+RUN apk --no-cache add shadow && usermod -u 1001 www-data
