@@ -20,6 +20,9 @@ RUN pecl install xdebug-2.9.2 \
     && echo "xdebug.remote_port=9000" >> $PHP_INI_DIR/conf.d/docker-php-ext-xdebug.ini \
     && echo "xdebug.remote_autostart=1" >> $PHP_INI_DIR/conf.d/docker-php-ext-xdebug.ini
 
+# install pdo_mysql
+RUN docker-php-ext-install pdo_mysql
+
 # install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 

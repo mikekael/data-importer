@@ -12,3 +12,8 @@
 | and give it the Closure to call when that URI is requested.
 |
 */
+
+$router->group(['prefix' => '/customers'], function ($router) {
+    $router->get('/{id}', 'CustomerController@show');
+    $router->get('/', 'CustomerController@index');
+});

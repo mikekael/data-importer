@@ -2,6 +2,24 @@ version: "3"
 
 services:
     app:
-        build: .
-        volumes: 
+        build: docker/php
+        volumes:
             - .:/var/www/html
+        depends_on:
+            - db
+
+    db:
+        image: mariadb
+        environment:
+            MYSQL_DATABASE: data_importer
+            MYSQL_ROOT_PASSWORD: "[k4V4Lh3dJ;ZT](]"
+
+    server:
+        image: nginx:alpine
+        volumes:
+            - .:/var/www/html
+            - ./docker/nginx/conf.d:/etc/nginx/conf.d
+        depends_on:
+            - app
+        ports:
+            - 80:80

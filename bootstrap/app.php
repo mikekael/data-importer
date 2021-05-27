@@ -58,6 +58,9 @@ $app->singleton(
 */
 
 $app->configure('app');
+$app->configure('doctrine');
+$app->configure('mappings');
+$app->configure('hashing');
 
 /*
 |--------------------------------------------------------------------------
@@ -81,8 +84,10 @@ $app->configure('app');
 |
 */
 
-$app->register(App\Providers\AppServiceProvider::class);
 $app->register(LaravelDoctrine\ORM\DoctrineServiceProvider::class);
+$app->register(LaravelDoctrine\Migrations\MigrationsServiceProvider::class);
+$app->register(App\Providers\AppServiceProvider::class);
+$app->register(App\Providers\ImportServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
