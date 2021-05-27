@@ -13,6 +13,10 @@
 |
 */
 
+$router->get('/', function () {
+    return 'Please proceed to /customers';
+});
+
 $router->group(['prefix' => '/customers'], function ($router) {
     $router->get('/{id}', 'CustomerController@show');
     $router->get('/', 'CustomerController@index');

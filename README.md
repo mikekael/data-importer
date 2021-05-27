@@ -40,7 +40,7 @@ docker-compose exec app php artisan doctrine:migrations:migrate
 docker-compose exec app php artisan import:customers
 ```
 
-Once you have completed the necessary steps you can now access the api via `http://localhost/customers`
+Once you have completed the necessary steps you can now access the api via `http://localhost:8080/customers`
 
 ## Running the test
 
