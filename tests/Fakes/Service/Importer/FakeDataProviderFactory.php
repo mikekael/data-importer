@@ -10,7 +10,7 @@ final class FakeDataProviderFactory implements DataProviderFactoryInterface
     /**
      * @see DataProviderFactoryInterface
      */
-    public function make(?string $providerId): DataProviderInterface
+    public function make(?string $providerId = null): DataProviderInterface
     {
         return new FakeDataProvider;
     }

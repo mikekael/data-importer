@@ -11,5 +11,5 @@ interface DataProviderFactoryInterface
      *
      * @return DataProviderInterface
      */
-    public function make(?string $providerId): DataProviderInterface;
+    public function make(?string $providerId = null): DataProviderInterface;
 }
