@@ -40,7 +40,7 @@ class RandomUserDataProvider implements DataProviderInterface
 
         $list = $response->toArray();
 
-        foreach ($list as $data) {
+        foreach ($list['results'] as $data) {
             yield new CustomerData(
                 $data['email'],
                 $data['login']['username'],

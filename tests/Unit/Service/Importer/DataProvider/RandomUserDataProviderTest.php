@@ -28,7 +28,7 @@ class RandomUserDataProviderTest extends TestCase
         parent::setUp();
 
         $this->response = new MockResponse(json_encode([
-            [
+            'results' => [[
                 'gender' => 'male',
                 'name' => [
                     'first' => 'Terry',
@@ -44,7 +44,7 @@ class RandomUserDataProviderTest extends TestCase
                 ],
                 'email' => 'terry.sanchez@example.com',
                 'phone' => '04-3987-1147',
-            ],
+            ]],
         ]));
 
         $this->provider = new RandomUserDataProvider(
