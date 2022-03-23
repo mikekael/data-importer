@@ -9,36 +9,54 @@ use App\DataTransfer\CustomerData;
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
 class Customer
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    /**
+     * @var int|null
+     */
     private int $id;
 
-    #[ORM\Column(type: 'string', length: 254)]
+    /**
+     * @var string
+     */
     private string $email;
 
-    #[ORM\Column(type: 'string', length: 32)]
+    /**
+     * @var string
+     */
     private string $username;
 
-    #[ORM\Column(type: 'string', length: 32)]
+    /**
+     * @var string
+     */
     private string $password;
 
-    #[ORM\Column(type: 'string', length: 32)]
+    /**
+     * @var string
+     */
     private string $firstName;
 
-    #[ORM\Column(type: 'string', length: 64)]
+    /**
+     * @var string
+     */
     private string $lastName;
 
-    #[ORM\Column(type: 'string', length: 10)]
+    /**
+     * @var string
+     */
     private string $gender;
 
-    #[ORM\Column(type: 'string', length: 90)]
+    /**
+     * @var string
+     */
     private string $country;
 
-    #[ORM\Column(type: 'string', length: 189)]
+    /**
+     * @var string
+     */
     private string $city;
 
-    #[ORM\Column(type: 'string', length: 20)]
+    /**
+     * @var string
+     */
     private string $phone;
 
     /**
