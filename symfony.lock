@@ -77,8 +77,14 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.7"
     },
+    "hamcrest/hamcrest-php": {
+        "version": "v2.0.1"
+    },
     "laminas/laminas-code": {
         "version": "4.5.1"
+    },
+    "mockery/mockery": {
+        "version": "1.5.0"
     },
     "myclabs/deep-copy": {
         "version": "1.11.0"
@@ -295,6 +301,9 @@
             "version": "1.0",
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
+    },
+    "symfony/password-hasher": {
+        "version": "v6.0.3"
     },
     "symfony/phpunit-bridge": {
         "version": "6.0",
