@@ -2,11 +2,8 @@
 
 namespace App\Entity;
 
-use App\Repository\CustomerRepository;
-use Doctrine\ORM\Mapping as ORM;
 use App\DataTransfer\CustomerData;
 
-#[ORM\Entity(repositoryClass: CustomerRepository::class)]
 class Customer
 {
     /**
@@ -167,6 +164,16 @@ class Customer
     public function getPhone(): string
     {
         return $this->phone;
+    }
+
+    /**
+     * Retrieve full name
+     *
+     * @return string
+     */
+    public function getFullName(): string
+    {
+        return sprintf('%s %s', $this->getFirstName(), $this->getLastName());
     }
 
     /**
