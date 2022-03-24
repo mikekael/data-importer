@@ -23,6 +23,13 @@ class ImportCustomerService
         protected PasswordHasherInterface $hasher
     ) {}
 
+    /**
+     * Execute the importing action
+     *
+     * @param  string|null $providerId
+     *
+     * @return void
+     */
     public function run(?string $providerId = null): void
     {
         $customers = $this->factory->make($providerId)->getCustomers();
