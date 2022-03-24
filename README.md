@@ -1,12 +1,13 @@
-# Data Importer
+# Coding Challenge
 
-This application allows to import necessary customers from a data provider like `randomuser.me`.
+This is a coding challenge for the role senior backend engineer in Flexisource IT company.
 
 ## Requirements
 
 - Docker - https://docs.docker.com/get-docker/
 - Docker Compose - https://docs.docker.com/compose/install/
 - VSCode (Optional) - https://code.visualstudio.com/download
+- VsCode Remote Containers Extension
 
 ## How to run
 
@@ -19,31 +20,76 @@ git clone https://github.com/mikekael/data-importer.git && cd data-importer
 2. Run the server
 
 ```cmd
-docker-compose up -d
+docker-compose -f docker-compose.prod.yml -p data-importer_prod up  -d
 ```
 
-3. Install application dependencies
+3. Install dependencies
 
 ```cmd
-docker-compose exec app composer install
+docker-compose -f docker-compose.prod.yml \
+    -p data-importer_prod \
+    exec app \
+    composer install
 ```
 
-4. Execute migration files
+4. Run Migration
 
 ```cmd
-docker-compose exec app php artisan doctrine:migrations:migrate
+docker-compose -f docker-compose.prod.yml \
+    -p data-importer_prod \
+    exec app \
+    php bin/console doctrine:migration:migrate --no-interaction
 ```
 
-5. Run the importer command
+5. Execute Importer
 
 ```cmd
-docker-compose exec app php artisan import:customers
+# Run importer
+docker-compose -f docker-compose.prod.yml \
+    -p data-importer_prod \
+    exec app \
+    php bin/console importer:import-customers
 ```
 
-Once you have completed the necessary steps you can now access the api via `http://localhost:8080/customers`
+6. Once its complete you can now access the api endpoints for the customers under http://localhost:8080
+    - `/customers` - list of customers
+    - `/customers/{customerId}` - retrieve customer data based on its identity
+    - `/` - redirects to `/customers`
 
-## Running the test
+## Running Tests
+
+1. Build a test environment containers. The purpose of this is to have a different database and avoid
+populating your local database.
 
 ```cmd
-docker-compose exec app php vendor/bin/phpunit
+docker-compose -f docker-compose.test.yml -p data-importer_test up  -d
 ```
+
+2. Install dependencies
+
+```cmd
+docker-compose -f docker-compose.test.yml \
+    -p data-importer_test \
+    exec app \
+    composer install
+```
+
+3. Execute the migration
+```cmd
+docker-compose -f docker-compose.test.yml \
+    -p data-importer_test \
+    exec app \
+    php bin/console doctrine:migration:migrate --no-interaction
+```
+
+4. Run the tests
+```cmd
+docker-compose -f docker-compose.test.yml \
+    -p data-importer_test \
+    exec app \
+    php bin/phpunit
+```
+
+## Developing
+
+You may need to install vscode and remote containers extension in order to start the development process. If you have the vscode setup and remote containers installed press `ctrl+shift+p` to open the command pallete and choose the `Reopen Folder in the container` it should prompt you with the file manager and just press enter and it should build the environment using the `.devcontainer` configurations. Once the environment is built. You need to run the migration command and import the customers.
