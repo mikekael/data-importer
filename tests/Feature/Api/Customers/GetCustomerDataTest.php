@@ -6,8 +6,10 @@ use App\DataFixtures\CustomerFixture;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class GetCustomersTest extends WebTestCase
+class GetCustomerDataTest extends WebTestCase
 {
     /**
      * @var KernelBrowser
@@ -48,22 +50,12 @@ class GetCustomersTest extends WebTestCase
     /**
      * @test
      */
-    public function shouldRespondOk(): void
-    {
-        $this->client->request('GET', '/customers');
-
-        $this->assertResponseIsSuccessful();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldRespondListOfCustomers(): void
+    public function shouldRespondCustomerData(): void
     {
         $fixture = new CustomerFixture;
         $customer = $fixture->load($this->em);
 
-        $this->client->request('GET', '/customers');
+        $this->client->request('GET', sprintf('/customers/%s', $customer->getId()));
 
         $this->assertResponseIsSuccessful();
         $this->assertResponseHasHeader('Content-type', 'application/json');
@@ -71,11 +63,33 @@ class GetCustomersTest extends WebTestCase
         $content = $this->client->getResponse()->getContent();
 
         $this->assertJson($content);
-        $this->assertEquals([[
+        $this->assertEquals([
             'id' => $customer->getId(),
             'full_name' => $customer->getFullName(),
             'email' => $customer->getEmail(),
+            'username' => $customer->getUsername(),
+            'gender' => $customer->getGender(),
             'country' => $customer->getCountry(),
-        ]], json_decode($content, true));
+            'city' => $customer->getCity(),
+            'phone' => $customer->getPhone(),
+        ], json_decode($content, true));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRespondNotFoundIfCustomerDoesNotExists(): void
+    {
+        $this->client->request('GET', '/customers/1');
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_NOT_FOUND);
+        $this->assertResponseHasHeader('Content-type', 'application/json');
+
+        $content = $this->client->getResponse()->getContent();
+
+        $this->assertJson($content);
+        $this->assertEquals([
+            'message' => 'customer_not_found',
+        ], json_decode($content, true));
     }
 }
