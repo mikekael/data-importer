@@ -14,11 +14,11 @@ class CustomerFixture extends Fixture
      *
      * @param  ObjectManager $manager
      *
-     * @return void
+     * @return Customer
      */
-    public function load(ObjectManager $manager): void
+    public function load(ObjectManager $manager): Customer
     {
-        $manager->persist(new Customer(new CustomerData(
+        $customer = new Customer(new CustomerData(
             'john@example.org',
             'johnny12',
             'bdc87b9c894da5168059e00ebffb9077',
@@ -28,8 +28,12 @@ class CustomerFixture extends Fixture
             'Australia',
             'Mackay',
             '04-3987-1147',
-        )));
+        ));
 
+        // flush and save
+        $manager->persist($customer);
         $manager->flush();
+
+        return $customer;
     }
 }

@@ -23,6 +23,7 @@ services:
     App\Contract\Repository\CustomerRepositoryInterface: '@App\Repository\CustomerRepository'
     App\Service\Importer\Contract\DataProviderFactoryInterface: '@App\Service\Importer\DataProviderFactory'
     Symfony\Component\PasswordHasher\PasswordHasherInterface: '@App\Security\Md5PasswordHasher'
+    App\Contract\Service\CustomerServiceInterface: '@App\Service\CustomerService'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

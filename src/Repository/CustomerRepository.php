@@ -4,23 +4,35 @@ namespace App\Repository;
 
 use App\Contract\Repository\CustomerRepositoryInterface;
 use App\Entity\Customer;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\QueryBuilder;
 
-/**
- * @method Customer|null find($id, $lockMode = null, $lockVersion = null)
- * @method Customer|null findOneBy(array $criteria, array $orderBy = null)
- * @method Customer[]    findAll()
- * @method Customer[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
-class CustomerRepository extends ServiceEntityRepository implements CustomerRepositoryInterface
+class CustomerRepository implements CustomerRepositoryInterface
 {
     /**
-     * @see ServiceEntityRepository
+     * Create instance of the customer repository
+     *
+     * @param EntityManagerInterface $em
      */
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(
+        protected EntityManagerInterface $em
+    ) {}
+
+    /**
+     * @see CustomerRepositoryInterface
+     */
+    public function find(int|string $id): ?Customer
     {
-        parent::__construct($registry, Customer::class);
+        try {
+            return $this->builder()
+                ->where('customers.id = :id')
+                ->setParameter('id', $id)
+                ->getQuery()
+                ->getSingleResult();
+        } catch (NoResultException $ex) {}
+
+        return null;
     }
 
     /**
@@ -28,7 +40,15 @@ class CustomerRepository extends ServiceEntityRepository implements CustomerRepo
      */
     public function findByEmailAddress(string $email): ?Customer
     {
-        return $this->findOneBy(['email' => $email]);
+        try {
+            return $this->builder()
+                ->where('customers.email = :email')
+                ->setParameter('email', $email)
+                ->getQuery()
+                ->getSingleResult();
+        } catch (NoResultException $ex) {}
+
+        return null;
     }
 
     /**
@@ -36,9 +56,33 @@ class CustomerRepository extends ServiceEntityRepository implements CustomerRepo
      */
     public function save(Customer $customer): Customer
     {
-        $this->_em->persist($customer);
-        $this->_em->flush();
+        $this->em->persist($customer);
+        $this->em->flush();
 
         return $customer;
+    }
+
+    /**
+     * @see CustomerRepositoryInterface
+     */
+    public function all(): iterable
+    {
+        return $this->builder()
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Create query builder instance
+     *
+     * @param  string $alias
+     *
+     * @return QueryBuilder
+     */
+    protected function builder(string $alias = 'customers'): QueryBuilder
+    {
+        return $this->em->createQueryBuilder()
+            ->select([$alias])
+            ->from(Customer::class, $alias);
     }
 }
