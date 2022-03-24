@@ -57,7 +57,7 @@ class RandomUserDataProviderTest extends TestCase
      */
     public function shouldLimitResultTo100(): void
     {
-        $this->provider->getCustomers()->next();
+        $this->provider->getCustomers()->current();
 
         $this->assertEquals('GET', $this->response->getRequestMethod());
         $this->assertStringContainsString('https://randomuser.me/api', $this->response->getRequestUrl());
@@ -69,7 +69,7 @@ class RandomUserDataProviderTest extends TestCase
      */
     public function shouldOnlyImportAustralianNationality(): void
     {
-        $this->provider->getCustomers()->next();
+        $this->provider->getCustomers()->current();
 
         $this->assertEquals('GET', $this->response->getRequestMethod());
         $this->assertStringContainsString('https://randomuser.me/api', $this->response->getRequestUrl());
@@ -81,7 +81,7 @@ class RandomUserDataProviderTest extends TestCase
      */
     public function shouldOnlyIncludeVariousFields(): void
     {
-        $this->provider->getCustomers()->next();
+        $this->provider->getCustomers()->current();
 
         $this->assertEquals('GET', $this->response->getRequestMethod());
         $this->assertStringContainsString('https://randomuser.me/api', $this->response->getRequestUrl());
