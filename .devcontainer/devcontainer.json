@@ -22,5 +22,6 @@
     "features": {
         "git": "latest",
         "git-lfs": "latest"
-    }
+    },
+    "postCreateCommand": "composer install"
 }
